@@ -31,7 +31,7 @@ As a next step, we have to define geographical zones to group stations and calcu
 | station code | zone name |
 |--------------|-----------|
 
-Then, we join these two tables and calculate different values such as mean, standard deviation, maximum and minimum, all of them for the yearly cumulated precipitation for each geographical zone, constructing a table with headers:
+Then, in ---.pig we join these two tables and calculate different values such as mean, standard deviation, maximum and minimum, all of them for the yearly cumulated precipitation for each geographical zone, constructing a table with headers:
 
 | zone name | year | mean | std | max | min |
 |-----------|------|------|-----|-----|-----|
