@@ -17,14 +17,14 @@ First of all, we need to preprocess the original data file, transpose the table 
 | station code | date | cum. precip. |
 |--------------|------|--------------|
 
-This data preprocessing is done using apache spark core since the rotation of the matrix could be demanding in memory. With this resulting table we can do a filter for the missing data deleting the rows where "cum. precip == -9999", which is done in the same python spark code preprocessing.py. The resulting table after this filter has 10.757.927 rows.
+This data preprocessing is done using apache spark core since the rotation of the matrix could be demanding in memory. With this resulting table we can do a filter for the missing data deleting the rows where "cum. precip == -9999", which is done in the same python spark code [preprocessing.py](https://github.com/cc5212/2020-drought-in-Chile/blob/master/preprocessing.py). The resulting table after this filter has 10.757.927 rows.
 
 Having this transformed and cleaned table, we start with the data exploration using apache Pig (since the number of rows can be handled in memory). We computed yearly accumulations when less than 5% of the days are missing. As result, we got a table with 24.082 rows and headers:
 
 | station code | year | cum. precip. |
 |--------------|------|--------------|
 
-The code used for this computation can be seen in ----.pig.
+The code used for this computation can be seen in [estaciones.pig](https://github.com/cc5212/2020-drought-in-Chile/blob/master/estaciones.pig).
 
 As a next step, we have to define geographical zones to group stations and calculate a mean and standard deviation of the yearly cumulated precipitation over each zone. For simplicity, as a first exploration, we will use the [natural regions](http://countrystudies.us/chile/37.htm) of Chile as the geographical zones. To get the coordinates for each station we will use the additional file present in the original dataset with the information for each station. The pig file ---.pig contains the code used to group the stations by their corresponding geographical zone, generating a table with headers:
 
