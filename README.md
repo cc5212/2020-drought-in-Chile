@@ -17,7 +17,7 @@ First of all, we need to preprocess the original data file, transpose the table 
 | station code | date | cum. precip. |
 |--------------|------|--------------|
 
-This data preprocessing is done using apache spark core since the rotation of the matrix could be demanding in memory. With this resulting table we can do a filter for the missing data deleting the rows where "cum. precip == -9999", which is done in the same python spark code preprocessing.py. The resulting table after this filter has 11.454.302 rows.
+This data preprocessing is done using apache spark core since the rotation of the matrix could be demanding in memory. With this resulting table we can do a filter for the missing data deleting the rows where "cum. precip == -9999", which is done in the same python spark code preprocessing.py. The resulting table after this filter has 10.757.927 rows.
 
 Having this transformed and cleaned table, we start with the data exploration using apache Pig (since the number of rows can be handled in memory). We computed yearly accumulations when less than 5% of the days are missing. As result, we got a table with 24.082 rows and headers:
 
