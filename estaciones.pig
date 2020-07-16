@@ -1,7 +1,7 @@
 
 
 
-raw = LOAD '/uhadoop2020/crahumadao/part-00000' USING PigStorage('\t') AS (codigo_estacion, anho, mes,dia,precipitacion_media);
+raw = LOAD '/uhadoop2020/project-group17/pyspark-preprocessing/part-00000' USING PigStorage('\t') AS (codigo_estacion, anho, mes,dia,precipitacion_media);
 
 -- para filtrar anho 
 raw = filter raw by anho >= 1900;
@@ -34,7 +34,7 @@ joined_a_p = join por_anho_filtrado_d by estanho, por_anho_agregado_p by estanho
 --se quita el id duplicado
 tabla_final = foreach joined_a_p generate $0 as estanho, $1 as dias, $3 as prec_acumulada;
 -- para guardar la tabla
-STORE tabla_final INTO '/uhadoop2020/crahumadao/acumuladaanho';
+STORE tabla_final INTO '/uhadoop2020/project-group17/pig-yearly-precip';
 
 
 
