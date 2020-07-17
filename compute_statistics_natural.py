@@ -30,25 +30,28 @@ def norm(x, mu, std):
 
 
 if __name__ == "__main__":
-	if len(sys.argv) != 4:
-		print("USAGE: project <file1> <file2> <dirout>", file=sys.stderr)
+	if len(sys.argv) != 3:
+		print("USAGE: project <file> <dirout>", file=sys.stderr)
 		sys.exit(-1)
 	# inicia spark	
 	spark = SparkSession.builder.appName("Project").getOrCreate()
 
 	# data cols are: code##year		days_sum	yearly_precip
 	dataRDD = spark.read.text(sys.argv[1]).rdd.map(lambda r: r[0].split("\t"))
-	dataRDD2 = dataRDD.map(lambda x: [ fix_code(x[0].split("##")[0]), x[0].split("##")[1], x[2] ] )
+	dataRDD1 = dataRDD.map(lambda x: [ fix_code(x[0].split("##")[0]), x[0].split("##")[1], x[2] ] )
+	dataRDD2 = dataRDD1.filter(lambda x: int(x[1]) > 1960)
 
 	# print(dataRDD2.take(5))
 
 	# file with spatial division, cols: code	zone_number
-	divisionRDD = spark.read.text(sys.argv[2]).rdd.map(lambda r: r[0].split(","))
+	divisionRDD = spark.read.text(sys.argv[2] + "estaciones_por_zonas_naturales.txt").rdd.map(lambda r: r[0].split("\t"))
+
+	natural_names = {"Norte Grande": 1, "Norte Chico": 2, "Centro": 3, "Sur": 4, "Austral": 5}
 
 	zones_arr = divisionRDD.collect()
 	zones_dict = {}
 	for x in zones_arr:
-		zones_dict[fix_code(x[0])] = int(x[1])
+		zones_dict[fix_code(x[0])] = natural_names.get(x[1], 0)
 
 	# print(zones_dict)
 
@@ -74,9 +77,9 @@ if __name__ == "__main__":
 
 
 	# the input in sys.argv[3] has to exists
-	dataMedianString.coalesce(1).saveAsTextFile(sys.argv[3] + "median-year-zone-yearly-data/")
-	dataZoneMeanStdString.coalesce(1).saveAsTextFile(sys.argv[3] + "mean-std-zone-yearly-data/")
-	dataByZoneString.coalesce(1).saveAsTextFile(sys.argv[3] + "yearly-data-with-zone/")
+	dataMedianString.coalesce(1).saveAsTextFile(sys.argv[2] + "median-year-natural-zone-yearly-data2/")
+	dataZoneMeanStdString.coalesce(1).saveAsTextFile(sys.argv[2] + "mean-std-natural-zone-yearly-data2/")
+	dataByZoneString.coalesce(1).saveAsTextFile(sys.argv[2] + "yearly-data-with-natural-zone2/")
 
 
 	# generemos la tabla con los SPI por estacion por zona
@@ -87,14 +90,14 @@ if __name__ == "__main__":
 
 	# print(dataSPIString.take(20))
 
-	dataSPIString.coalesce(1).saveAsTextFile(sys.argv[3] + "yearly-SPI-by-zone/")
+	dataSPIString.coalesce(1).saveAsTextFile(sys.argv[2] + "yearly-SPI-by-natural-zone2/")
 
 
 	# ahora calculamos precipitacion promedio anual por cada estacion
 	meanYearlyStationRDD = dataRDD2.map(lambda x: (x[0], [float(x[2])])).reduceByKey(lambda a,b: a+b).map(lambda x: (x[0], mean(x[1])))
 
 	# obtenemos code, latitude y longitud de cr2_prDaily_2018_stations_ghcn.txt y le agregamos la division por zonas
-	dataStationsRDD = spark.read.text(sys.argv[3] + "cr2_prDaily_2018_stations_ghcn.txt").rdd.map(lambda r: r[0].split(",")).map(lambda r: (r[0], (r[5], r[6], zones_dict.get(r[0], 0))))
+	dataStationsRDD = spark.read.text(sys.argv[2] + "cr2_prDaily_2018_stations_ghcn.txt").rdd.map(lambda r: r[0].split(",")).map(lambda r: (r[0], (r[5], r[6], zones_dict.get(r[0], 0))))
 
 
 	# unimos ambas tablas
@@ -106,7 +109,7 @@ if __name__ == "__main__":
 	# generamos el string de salida
 	dataMeanLatLonString = dataMeanLatLonRDD.map(lambda x: (x[0] + "\t" + str(x[1][0]) + "\t" + x[1][1][0] + "\t" + x[1][1][1] + "\t" + str(x[1][1][2])))
 
-	dataMeanLatLonString.coalesce(1).saveAsTextFile(sys.argv[3] + "mean-yearly-precip-lat-lon-zone/")
+	dataMeanLatLonString.coalesce(1).saveAsTextFile(sys.argv[2] + "mean-yearly-precip-lat-lon-natural-zone2/")
 
 
 	spark.stop()
