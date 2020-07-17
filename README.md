@@ -76,17 +76,39 @@ In this image we can see a distribution fitted by the data extracted from "Regio
 
 Then we have the yearly Standarized Precipitation Index (SPI) on "Region Metropolitana" and Central and South Zones.
 
-Región metropolitana:
+Región metropolitana:\
 <img src="plots/yearly_spi.png" alt="Yearly Standarized Precipitation Index" width="400"/></br>
 
-Central Zone:
+Central Zone:\
 <img src="plots/yearly_spi_natural2_central.png" alt="Yearly Standarized Precipitation Index (Central)" width="400"/>
 
-South Zone:
+South Zone:\
 <img src="plots/yearly_spi_natural2_sur.png" alt="Yearly Standarized Precipitation Index (South)" width="400"/>
 
 In all SPI plots, the red zone is the last ten years
 
 
+# Analysis
+
+Based on the results, we can see that there is more precipitation on the south of Chile and there is little precipitation on the north, this is an intuitive result by climate of the areas of Chile.
+
+Then, we can say that the histogram of yearly accumulated precipitation on the 13th region, seems to fit to a Normal Distribution.
+
+Finally on the SPI plots, we can see there is a downward trend  in the value of SPI on the 13th region and in the central zone. This may showing the drought that is currently affecting the country. In the case of South Zone, this could be less clear, but starting on year 2000, we could also see this downward trend.
 
 # Conclusions
+
+We could say that sometimes the raw data brings difficulties for its preprocessing, beacuse every work has has its own peculiarities. In this case, it's not straightforward to rotate a table and then collapse its columns.
+Challeging geographical zone definition. It's not easy to choose the right limits and build the correspondant table. Also political limits do not necessarily conform to geographic or natural limits, so both should be analyzed for a better understanding of the data.
+
+The accumulated yearly precipitation was easy to calculate, because of the preprocessing of the data. But the SPI calculation was difficult to do, because it required very steps of processing.
+In general, Apache PIG and Apache Spark, are easy to handle.
+
+# Future Work
+
+We think that could be useful to extend the analysis outside the country to compare if this is an local fenomena or a global one. 
+Also could be useful to use The SPI based on the monthly o seasonly accumulated precipitation, to do a deeper analysis. 
+Finally, would be better to use more updated data to find out if the trend continues until this year or if it is reversing.
+
+
+
