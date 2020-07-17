@@ -53,11 +53,16 @@ Then, in ---.pig we join these two tables and calculate different values such as
 ## Visualization of results.
 Finally, we plot this data to show the behavior of them and perform the corresponding analysis. We also repeat this process for seasonal precipitation, calculating the cumulated precipitation for summer, autumn, winter and spring. 
 
-[TODO: generaremos otras zonas geograficas diferentes a las regiones naturales?]
 
 # Results
-[TODO]
+<img src="plots/annual_mean_lat_lon.png" alt="Annual mean latitud-longitud" width="600"/>
+<img src="plots/annual_mean_lat_lon_natural2.png" alt="Annual min latitud-longitud, natural" width="600"/>
+<img src="plots/fit_distribution.png" alt="Fit distrubution" width="600"/>
+<img src="plots/yearly_spi.png" alt="Yearly Standarized Precipitation Index" width="600"/>
+<img src="plots/yearly_spi_natural2_central.png" alt="Yearly Standarized Precipitation Index (Central)" width="600"/>
+<img src="plots/yearly_spi_natural2_sur.png" alt="Yearly Standarized Precipitation Index (South)" width="600"/>
+
+
+
 
 # Conclusions
-[TODO]
-
