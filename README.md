@@ -56,7 +56,7 @@ Then, in ---.pig we join these two tables and calculate different values such as
 
 
 ## Visualization of results.
-Finally, we plot this data to show the behavior of them and perform the corresponding analysis. We also repeat this process for seasonal precipitation, calculating the cumulated precipitation for summer, autumn, winter and spring. 
+Finally, we plot this data to show the behavior of them and perform the corresponding analysis.
 
 
 # Results
