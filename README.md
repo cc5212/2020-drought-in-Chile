@@ -62,25 +62,30 @@ Finally, we plot this data to show the behavior of them and perform the correspo
 # Results
 
 In results, we can see the plots that could show more clearly how is the behaivor of the precipitation over the years.
+On this plot we can see the the annual mean precipitaiton  over the latitude and also the longitud over the latitude. The highlighted zone is "Region Metropolitana".
 
-On this plot we can see the the annual mean precipitaiton  over the latitude and also the longitud over the latitude. The highlighted zone is"Region Metropolitana".
+
 <img src="plots/annual_mean_lat_lon.png" alt="Annual mean latitud-longitud" width="400"/>
 
 This plot also shows the the annual mean precipitaiton  over the latitude and also the longitud over the latitude, but it shows the natural division.
+
 <img src="plots/annual_mean_lat_lon_natural2.png" alt="Annual min latitud-longitud, natural" width="400"/>
 
-In this image we can see a distribution fitted by the data extracted from "Region metropolitana"
+In this image we can see a distribution fitted by the data extracted from "Region metropolitana".
 <img src="plots/fit_distribution.png" alt="Fit distrubution" width="400"/>
 
 Then we have the yearly Standarized Precipitation Index (SPI) on "Region Metropolitana" and Central and South Zones.
+
 Región metropolitana:
-<img src="plots/yearly_spi.png" alt="Yearly Standarized Precipitation Index" width="400"/>
+<img src="plots/yearly_spi.png" alt="Yearly Standarized Precipitation Index" width="400"/></br>
 
 Central Zone:
 <img src="plots/yearly_spi_natural2_central.png" alt="Yearly Standarized Precipitation Index (Central)" width="400"/>
-South Zone
+
+South Zone:
 <img src="plots/yearly_spi_natural2_sur.png" alt="Yearly Standarized Precipitation Index (South)" width="400"/>
 
+In all SPI plots, the red zone is the last ten years
 
 
 
