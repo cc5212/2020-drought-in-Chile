@@ -48,15 +48,31 @@ The file ---- contains the code use to group the stations by their corresponding
 |--------------|-----------|
 
 
-## Calculating Central Tendency values.
-Then, in ---.pig we join these two tables and calculate different values such as mean, standard deviation, maximum and minimum, all of them for the yearly cumulated precipitation for each geographical zone, constructing a table with headers:
+## Calculating Standard Precipitation Index (SPI) and Annual Mean Precipitation.
+Using the accumulated yearly precipitation and the stations’ grouping, we compute the Standard Precipitation Index using a normal distribution. For this, we have to compute first the mean and standard deviation of the historical yearly accumulated precipitation for each grouping zone. Then, for each zone and each year we compute the median accumulated precipitation, resulting only 1 timeserie on each grouping zone. Finally, we compute SPI by normalizing this timeserie by the previously computed average and standard deviation. We generate 4 tables with headers:
 
-| zone name | year | mean | std | max | min |
-|-----------|------|------|-----|-----|-----|
+| code | year | precip | zone |
+|------|------|--------|------|
+
+| zone | mean | std |
+|------|------|-----|
+
+| zone | year | median |
+|------|------|--------|
+
+| zone | year | SPI |
+|------|------|-----|
+
+We also compute an annual mean precipitation, i.e., compute for each station the mean accumulated precipitation over the years. For further information, we add to the resulting table the corresponding latitude, longitude and zone for each zone, producing  a table with headers:
+
+| code | mean.precip. | lat | lon | zone |
+|------|--------------|-----|-----|------|
+
+All this process is done in one single Apache Spark script file in python called [compute_statistics.py](https://github.com/cc5212/2020-drought-in-Chile/blob/master/compute_statistics.py) for the grouping zone based on administrative divisions and [compute_statistics_natural.py](https://github.com/cc5212/2020-drought-in-Chile/blob/master/compute_statistics_natural.py) for the grouping zone based on natural regions.
 
 
 ## Visualization of results.
-Finally, we plot this data to show the behavior of them and perform the corresponding analysis.
+Finally, we plot this data to show the behavior of them and perform the corresponding analysis. This plot is done in Jupyter Notebook using python 3 and can be found [here](https://github.com/cc5212/2020-drought-in-Chile/blob/master/plots/plots.ipynb). The resulting plots can be found [here](https://github.com/cc5212/2020-drought-in-Chile/tree/master/plots).
 
 
 # Results
@@ -95,6 +111,13 @@ Based on the results, we can see that there is more precipitation on the south o
 Then, we can say that the histogram of yearly accumulated precipitation on the 13th region, seems to fit to a Normal Distribution.
 
 Finally on the SPI plots, we can see there is a downward trend  in the value of SPI on the 13th region and in the central zone. This may showing the drought that is currently affecting the country. In the case of South Zone, this could be less clear, but starting on year 2000, we could also see this downward trend.
+
+For further comparison, our experiments are consistent with the results presented in:
+
+**Garreaud, R. D., Boisier, J. P., Rondanelli, R., Montecinos, A., Sepúlveda, H. H., & Veloso‐Aguila, D. (2020). The central Chile mega drought (2010–2018): a climate dynamics   perspective. International Journal of Climatology, 40(1), 421-439.**[[link]](http://dgf.uchile.cl/rene/PUBS/MD_dynamics.pdf)
+
+Which work around the same dataset.
+
 
 # Conclusions
 
