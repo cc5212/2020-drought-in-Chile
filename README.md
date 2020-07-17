@@ -35,24 +35,20 @@ Having this transformed and cleaned table, we start with the data exploration us
 The code used for this computation can be seen in [estaciones.pig](https://github.com/cc5212/2020-drought-in-Chile/blob/master/estaciones.pig).
 
 ## Stations Grouping
-As a next step, we have to define geographical zones to group stations and calculate a mean and standard deviation of the yearly cumulated precipitation over each zone. We have two different ways to split the data,as first exploration, we will use the [natural regions](http://countrystudies.us/chile/37.htm) of Chile as the geographical zones. To get the coordinates for each station we will use the additional file present in the original dataset with the information for each station. The pig file ---.pig contains the code used to group the stations by their corresponding geographical zone, generating a table with headers:
+As a next step, we have to define geographical zones to group stations and calculate a mean and standard deviation of the yearly cumulated precipitation over each zone. We have two different ways to split the data,as first exploration, we will use the [natural regions](http://countrystudies.us/chile/37.htm) of Chile as the geographical zones. To get the coordinates for each station we will use the additional file present in the original dataset with the information for each station. The pig file [estacionesPorZona.pig](https://github.com/cc5212/2020-drought-in-Chile/blob/master/estacionesPorZona.pig) contains the code used to group the stations by their corresponding geographical zone, generating a table with headers:
 
-| station code | zone name |
-|--------------|-----------|
+| station code | zone |
+|--------------|------|
 
 
-The other way is to split by the regions of the administrative division, to do this, we have to convert the coordinates (Lat-Long) to know to which region belongs each station on UTM coordinates, this has been done by calculating the minimum distance from a station to the regional limits.
-The file ---- contains the code use to group the stations by their corresponding region, generating a table with headers:
-
-| station code | region    |
-|--------------|-----------|
+The other way is to split by the regions of the administrative division, to do this, we have to convert the coordinates (Lat-Long) to know to which region belongs each station on UTM coordinates, this has been done by calculating the minimum distance from a station to the regional limits. The code used for this process can be found [here](https://github.com/cc5212/2020-drought-in-Chile/tree/master/ProcesoEstacionxRegion)
 
 
 ## Calculating Standard Precipitation Index (SPI) and Annual Mean Precipitation.
 Using the accumulated yearly precipitation and the stations’ grouping, we compute the Standard Precipitation Index using a normal distribution. For this, we have to compute first the mean and standard deviation of the historical yearly accumulated precipitation for each grouping zone. Then, for each zone and each year we compute the median accumulated precipitation, resulting only 1 timeserie on each grouping zone. Finally, we compute SPI by normalizing this timeserie by the previously computed average and standard deviation. We generate 4 tables with headers:
 
-| code | year | precip | zone |
-|------|------|--------|------|
+| station code | year | precip | zone |
+|--------------|------|--------|------|
 
 | zone | mean | std |
 |------|------|-----|
@@ -65,8 +61,8 @@ Using the accumulated yearly precipitation and the stations’ grouping, we comp
 
 We also compute an annual mean precipitation, i.e., compute for each station the mean accumulated precipitation over the years. For further information, we add to the resulting table the corresponding latitude, longitude and zone for each zone, producing  a table with headers:
 
-| code | mean.precip. | lat | lon | zone |
-|------|--------------|-----|-----|------|
+| station code | mean.precip. | lat | lon | zone |
+|--------------|--------------|-----|-----|------|
 
 All this process is done in one single Apache Spark script file in python called [compute_statistics.py](https://github.com/cc5212/2020-drought-in-Chile/blob/master/compute_statistics.py) for the grouping zone based on administrative divisions and [compute_statistics_natural.py](https://github.com/cc5212/2020-drought-in-Chile/blob/master/compute_statistics_natural.py) for the grouping zone based on natural regions.
 
